@@ -26,20 +26,69 @@
                 center: latlon
             });
 
-            //Add marker
-            var marker = new google.maps.Marker({
-                position: latlon,
-                map: map,
-                icon:"https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
-            });
+            // //Add marker
+            // var marker = new google.maps.Marker({
+            //     position: latlon,
+            //     map: map,
+            //     icon:"https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+            // });
 
-            var infoWindow = new google.maps.InfoWindow({
-                content:'<h2>Narayan&#39 Place</h2>'
-            });
+            // var infoWindow = new google.maps.InfoWindow({
+            //     content:'<h2>Narayan&#39 Place</h2>'
+            // });
 
-            marker.addListener('click',function(){
-                infoWindow.open(map,marker);
-            });
+            // marker.addListener('click',function(){
+            //     infoWindow.open(map,marker);
+            // });
+
+            //Add random icons on click
+            google.maps.event.addListener(map, 'click',function(event){
+                //Add marker
+                addMarker({coords:event.latLng})
+            })
+
+            var markers = [
+                {
+                        coords:{lat: 30.3884, lng: 78.1294},
+                        iconImg:'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+                        content:'<h2>Sahastradhara</h2>'
+                },
+                {
+                        coords:{lat: 30.375869091202915, lng: 78.10568626145688},
+                        content:'<h2>Narayan&#39 Place</h2>'
+                },
+                {
+                        coords:{lat: 30.3734, lng: 78.1085},
+                        content:'<h2>Songsten Library</h2>'
+                }
+
+            ];
+
+            for(var i=0; i<markers.length;i++){
+                addMarker(markers[i]);
+            }
+
+            function addMarker(prop){
+                 var marker = new google.maps.Marker({
+                    position: prop.coords,
+                    map: map
+                });
+
+                if(prop.iconImg){
+                    marker.setIcon(prop.iconImg);
+                }
+
+                if(prop.content){
+                    var infoWindow = new google.maps.InfoWindow({
+                        content:prop.content
+                    });
+
+                    marker.addListener('click',function(){
+                        infoWindow.open(map,marker);
+                     });
+                }
+                
+            }
         }
         </script>
         <script async defer
